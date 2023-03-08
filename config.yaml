@@ -5,31 +5,32 @@ fastq_dir: "/home/centos/GenePanelVariantCallingSmk/fastq/"
 
 samples:
   - sample_name: SRR10611150
-    read: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611150.fastq.gz
+    fastq_files: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611150.fastq.gz
   - sample_name: SRR10611151
-    read: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611151.fastq.gz
+    fastq_files: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611151.fastq.gz
   - sample_name: SRR10611152
-    read: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611152.fastq.gz
+    fastq_files: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611152.fastq.gz
   - sample_name: SRR10611153
-    read: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611153.fastq.gz
+    fastq_files: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611153.fastq.gz
   - sample_name: SRR10611154
-    read: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611154.fastq.gz
+    fastq_files: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611154.fastq.gz
   - sample_name: SRR10611155
-    read: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611155.fastq.gz
+    fastq_files: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611155.fastq.gz
   - sample_name: SRR10611156
-    read: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611156.fastq.gz
+    fastq_files: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611156.fastq.gz
   - sample_name: SRR10611157
-    read: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611157.fastq.gz
+    fastq_files: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611157.fastq.gz
   - sample_name: SRR10611177
-    read: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611177.fastq.gz
+    fastq_files: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611177.fastq.gz
   - sample_name: SRR10611178
-    read1: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611178.fastq.gz
+    fastq_files: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611178.fastq.gz
   - sample_name: SRR10611179
-    read: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611179.fastq.gz
+    fastq_files: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611179.fastq.gz
   - sample_name: SRR10611180
-    read: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611180.fastq.gz
+    fastq_files: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611180.fastq.gz
   - sample_name: SRR10611181
-    read: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611181.fastq.gz
+    fastq_files: /home/centos/GenePanelVariantCallingSmk/fastq/SRR10611181.fastq.gz
+
 
 
 # Computational resource
