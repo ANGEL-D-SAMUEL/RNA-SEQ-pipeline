@@ -25,7 +25,7 @@ for name in listdir(config["fastq"]):
     else:
         exit
 
-#sample_names = list(set(sample_names))
+sample_names = list(set(sample_names))
 
 rule all:
     input:
@@ -36,9 +36,9 @@ rule fastp:
         fastq_files="fastq/{sample}.fastq.gz"
  
     output:
-        clean_fastq=temp("clean_fastq/clean_{sample}.fastq.gz"),
-        report="results/quality_control/{sample}.fastp.html",
-        json="results/quality_control/{sample}.fastp.json"
+        clean_fastq="{config['clean_fastq']}/clean_{sample}.fastq.gz",
+        report="{config['quality_control']}/{sample}.fastp.html",
+        json="{config['quality_control']}/{sample}.fastp.json"
     conda:
         "envs/fastp.yaml"
     threads:
@@ -53,7 +53,8 @@ rule fastp:
 
 rule bwa:
     input:
-        clean_fastq="clean_fastq/clean_{sample}.fastq.gz"
+        "{config['clean_fastq']}/clean_{sample}.fastq.gz"
+        
     params:
         genome="resources/genome/GRCh38.primary_assembly.genome.fa.gz"
     output:
@@ -63,7 +64,7 @@ rule bwa:
     threads:
         config["threads"]
     shell:
-        "bwa mem -t {threads} {params.genome} {input.clean_fastq} > "
+        "bwa mem -t {threads} {params.genome} {input} > "
         "{output}"
 
 
@@ -83,7 +84,7 @@ rule markduplicates:
     input:
         "bam/{sample}.sorted.bam"
     output:
-        bam="bam/{sample}.sorted.removed_duplicates.bam",
+        bam="{config['bam']}/{sample}.sorted.removed_duplicates.bam",
         metrics="results/quality_control/markduplicates/{sample}.txt"
     conda:
         "envs/gatk4.yaml"
@@ -94,9 +95,9 @@ rule markduplicates:
 
 rule bamindex:
     input:
-        "bam/{sample}.sorted.removed_duplicates.bam"
+        "{config['bam']}/{sample}.sorted.removed_duplicates.bam"
     output:
-        "bam/{sample}.sorted.removed_duplicates.bam.bai"
+        "{config['bam']}/{sample}.sorted.removed_duplicates.bam.bai"
     conda:
         "envs/samtools.yaml"
     shell:
@@ -104,7 +105,7 @@ rule bamindex:
 
 rule htseq:
     input:
-        bam="bam/{sample}.sorted.removed_duplicates.bam.bai",
+        bam="{config['bam']}/{sample}.sorted.removed_duplicates.bam.bai",
         annotation="resources/genome/gencode.v43.annotation.gtf.gz"
     output:
         "counts/{sample}_counts.txt"
