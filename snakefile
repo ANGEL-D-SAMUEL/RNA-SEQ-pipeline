@@ -17,13 +17,13 @@ working_directory = getcwd()
 from os import listdir
 from sys import exit
 sample_names = []
-for name in listdir(config["fastq_dir"]):
+for name in listdir(config["fastq"]):
     if ".fastq.gz" in name:
         
          sample_names.append(name[:-9])
 
     else:
-        exit()
+        exit
 
 #sample_names = list(set(sample_names))
 
@@ -33,12 +33,12 @@ rule all:
 
 rule fastp:
     input:
-        fastq_files=expand("fastq/{sample}.fastq.gz", sample=sample_names)
+        fastq_files="fastq/{sample}.fastq.gz"
  
     output:
-        clean_fastq=expand("clean_fastq/clean_{sample}.fastq.gz", sample=sample_names),
-        report=expand("results/quality_control/{sample}.fastp.html", sample=sample_names),
-        json=expand("results/quality_control/{sample}.fastp.json", sample=sample_names)
+        clean_fastq=temp("clean_fastq/clean_{sample}.fastq.gz"),
+        report="results/quality_control/{sample}.fastp.html",
+        json="results/quality_control/{sample}.fastp.json"
     conda:
         "envs/fastp.yaml"
     threads:
@@ -53,7 +53,7 @@ rule fastp:
 
 rule bwa:
     input:
-        clean_fastq=expand("clean_fastq/clean_{sample}.fastq.gz", sample=sample_names)
+        clean_fastq="clean_fastq/clean_{sample}.fastq.gz"
     params:
         genome="resources/genome/GRCh38.primary_assembly.genome.fa.gz"
     output:
