@@ -6,6 +6,7 @@
 #   Input files have the following nomenclature:
 #   fastq_files : {sample_name}.fastq.gz
 
+
 configfile: "workflow/config.yaml"
 
 # Get working directory
@@ -22,7 +23,7 @@ for name in listdir(config["fastq_dir"]):
          sample_names.append(name[:-9])
 
     else:
-        exit
+        exit()
 
 #sample_names = list(set(sample_names))
 
@@ -32,28 +33,27 @@ rule all:
 
 rule fastp:
     input:
-        ["fastq/{sample}.fastq.gz" for sample in sample_names]
+        fastq_files=expand("fastq/{sample}.fastq.gz", sample=sample_names)
  
     output:
-        clean_fastq="clean_fastq/{sample}_clean.fastq.gz",
-        report="results/quality_control/{sample}.fastp.html",
-        json="results/quality_control/{sample}.fastp.json"
+        clean_fastq=expand("clean_fastq/clean_{sample}.fastq.gz", sample=sample_names),
+        report=expand("results/quality_control/{sample}.fastp.html", sample=sample_names),
+        json=expand("results/quality_control/{sample}.fastp.json", sample=sample_names)
     conda:
         "envs/fastp.yaml"
     threads:
         config["threads"]
     shell:
-        "fastp -i {input} "
+        "fastp -i {input.fastq_files} "
         "-o {output.clean_fastq} "
         "-h {output.report} -j {output.json} "
         "--detect_adapter_for_pe --qualified_quality_phred 15 "
         "--unqualified_percent_limit 40 --length_required 15 "
         "--thread {threads}"
-print("Input files:", input)
 
 rule bwa:
     input:
-        clean_fastq="clean_fastq/{sample}_clean.fastq.gz"
+        clean_fastq=expand("clean_fastq/clean_{sample}.fastq.gz", sample=sample_names)
     params:
         genome="resources/genome/GRCh38.primary_assembly.genome.fa.gz"
     output:
@@ -112,9 +112,9 @@ rule htseq:
         "envs/htseq.yaml"
     threads: 4
     shell:
-        "gunzip -c {input.annotation} > tempfile; "
-        "htseq-count -f bam -r pos -s no -i gene_id -p 4 {input.bam} tempfile > tempfile2; "
-        "echo '{input.bam}' | tr ' ' '\t' | cat - tempfile2 > {output}"
+         "gunzip -c {input.annotation} > tempfile; "
+         "htseq-count -f bam -r pos -s no -i gene_id -p 4 {input.bam} tempfile > tempfile2; "
+         "echo '{input.bam}' | tr ' ' '\t' | cat - tempfile2 > {output}"
 
  
 rule multiqc:
